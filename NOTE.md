@@ -13,16 +13,27 @@ Redux createEntityAdapter() utility that helps to perform CRUD operations.
 
 # Releted Interview questions
 
-## findIndex
+## findIndex [click for more](https://www.w3schools.com/jsref/jsref_findindex.asp)
 
 The **findIndex()** method executes a function for each array element.
 The **findIndex()** method returns the index (position) of the first element that passes a test.
 The **findIndex()** method returns -1 if no match is found.
 
-const ages = [3, 10, 18, 20];
-ages.findIndex(checkAge);
+const ages = [3, 10, 18, 20]
+ages.findIndex(checkAge)
 function checkAge(age) {
-return age > 18;
+return age > 18
 }
 
 ==> 3
+
+## [Splice](https://www.w3schools.com/jsref/jsref_splice.asp)
+
+- Syntax
+  - **array.splice(index, count, item1, ....., itemX)**
+
+* index Required.
+  - The index (position) to add or remove items. A negative value counts from the end of the array.
+* count Optional.
+  - Number of items to be removed.
+* item1, ..., Optional.
