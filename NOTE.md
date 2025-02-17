@@ -48,3 +48,11 @@ return age > 18
 * count Optional.
   - Number of items to be removed.
 * item1, ..., Optional.
+
+## Currying
+
+It transforms a function with multiple arguments into a series of functions, each taking a single argument.
+
+![](Images\curring.png)
+
+![](Images\arrowCurring.png)
