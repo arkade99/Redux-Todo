@@ -1,23 +1,15 @@
 import store from "./store/configurestore";
-import { EmployeeStore } from "./store/employees";
-import { addTask, completedTask, removeTask } from "./store/tasks";
-import { addEmployee } from "./store/employees";
+import { getTasks } from "./store/tasks";
+import axios from "axios";
 
-const unsubscribe = store.subscribe(() => {
-  console.log(store.getState());
-});
+const gettingTasks = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/tasks");
+    console.log(response);
+    store.dispatch(getTasks({ tasks: response.data }));
+  } catch (error) {
+    store.dispatch({ type: "Show_Error", payload: { error: error.message } });
+  }
+};
 
-store.dispatch(addTask({ task: "Read Redux" }));
-// store.dispatch(addTask({ task: "Read a book" }));
-// console.log(store.getState());
-// //unsubscribe();
-// store.dispatch(completedTask({ id: 0 }));
-// console.log(store.getState());
-// store.dispatch(removeTask({ id: 1 }));
-// //store.dispatch(fetchTodo());
-// console.log(store.getState());
-
-//EmployeeStore.dispatch(addEmployee({ EmpName: "Jacob" }));
-//store.dispatch(addEmployee({ name: "Jacob" }));
-store.dispatch({ type: "Show_Error", payload: { error: "Usre Not found" } });
-//console.log(store.getState());
+gettingTasks();
