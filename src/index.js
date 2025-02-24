@@ -18,5 +18,6 @@ store.dispatch(addTask({ task: "Read Redux" }));
 // console.log(store.getState());
 
 //EmployeeStore.dispatch(addEmployee({ EmpName: "Jacob" }));
-store.dispatch(addEmployee({ name: "Jacob" }));
-console.log(store.getState());
+//store.dispatch(addEmployee({ name: "Jacob" }));
+store.dispatch({ type: "Show_Error", payload: { error: "Usre Not found" } });
+//console.log(store.getState());
