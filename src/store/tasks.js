@@ -1,17 +1,36 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "../utils/http";
+import error from "./middleware/error";
 
 let id = 0;
+const initialState = {
+  tasks: [],
+  loading: false,
+  error: null,
+};
+
+export const fetchTasks = createAsyncThunk(
+  "fetchTasks",
+  async (a, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/tasks");
+      return { tasks: response.data };
+    } catch (error) {
+      return rejectWithValue({ error: error.message });
+    }
+  }
+);
 
 const taskSlice = createSlice({
   name: "tasks",
-  initialState: [],
+  initialState,
   reducers: {
     getTasks: (state, action) => {
-      return action.payload.tasks;
+      state.tasks = action.payload;
     },
     addTask: (state, action) => {
       console.log("Task  state-action", state, action);
-      state.push({
+      state.tasks.push({
         id: id++,
         task: action.payload.task,
         completed: false,
@@ -19,12 +38,25 @@ const taskSlice = createSlice({
     },
     completedTask: (state, action) => {
       const index = state.findIndex((task) => task.id === action.payload.id);
-      state.splice(index, 1);
+      state.tasks.splice(index, 1);
       console.log("state-action", state, action);
     },
     removeTask: (state, action) => {
       const index = state.findIndex((task) => task.id === action.payload.id);
-      state[index].completed = true;
+      state.tasks[index].completed = true;
+    },
+  },
+  extraReducers: {
+    [fetchTasks.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [fetchTasks.fulfilled]: (state, action) => {
+      state.tasks = action.payload.tasks;
+      state.loading = false;
+    },
+    [fetchTasks.rejected]: (state, action) => {
+      state.tasks = action.payload.error;
+      state.loading = true;
     },
   },
 });
